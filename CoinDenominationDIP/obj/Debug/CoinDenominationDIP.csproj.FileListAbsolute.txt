@@ -1,0 +1,9 @@
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\bin\Debug\CoinDenominationDIP.exe.config
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\bin\Debug\CoinDenominationDIP.exe
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\bin\Debug\CoinDenominationDIP.pdb
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\obj\Debug\CoinDenominationDIP.csproj.AssemblyReference.cache
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\obj\Debug\CoinDenominationDIP.Properties.Resources.resources
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\obj\Debug\CoinDenominationDIP.csproj.GenerateResource.cache
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\obj\Debug\CoinDenominationDIP.csproj.CoreCompileInputs.cache
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\obj\Debug\CoinDenominationDIP.exe
+C:\Users\Arth Andrey\source\repos\CoinDenominationDIP\CoinDenominationDIP\obj\Debug\CoinDenominationDIP.pdb
