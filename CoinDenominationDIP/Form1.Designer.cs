@@ -12,6 +12,7 @@
         private System.Windows.Forms.NumericUpDown thresholdInput;
         private System.Windows.Forms.CheckBox maskCheckBox;
         private System.Windows.Forms.FlowLayoutPanel viewbar;
+        private System.Windows.Forms.CheckBox darkModeCheckBox;
         private System.Windows.Forms.ToolTip helpTip;
         private System.Windows.Forms.TableLayoutPanel images;
         private System.Windows.Forms.GroupBox originalGroup;
@@ -52,6 +53,7 @@
             this.thresholdInput = new System.Windows.Forms.NumericUpDown();
             this.maskCheckBox = new System.Windows.Forms.CheckBox();
             this.viewbar = new System.Windows.Forms.FlowLayoutPanel();
+            this.darkModeCheckBox = new System.Windows.Forms.CheckBox();
             this.helpTip = new System.Windows.Forms.ToolTip(this.components);
             this.images = new System.Windows.Forms.TableLayoutPanel();
             this.originalGroup = new System.Windows.Forms.GroupBox();
@@ -137,7 +139,7 @@
             this.processButton.Enabled = false;
             this.processButton.TabIndex = 3;
             this.maskCheckBox.Name = "maskCheckBox";
-            this.maskCheckBox.Text = "Show &binary mask";
+            this.maskCheckBox.Text = "&Black-and-white";
             this.maskCheckBox.AutoSize = true;
             this.maskCheckBox.Margin = new System.Windows.Forms.Padding(14, 8, 0, 0);
             this.maskCheckBox.TabIndex = 1;
@@ -146,6 +148,12 @@
             this.viewbar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewbar.WrapContents = false;
             this.viewbar.Controls.Add(this.maskCheckBox);
+            this.viewbar.Controls.Add(this.darkModeCheckBox);
+            this.darkModeCheckBox.Name = "darkModeCheckBox";
+            this.darkModeCheckBox.Text = "&Dark mode";
+            this.darkModeCheckBox.AutoSize = true;
+            this.darkModeCheckBox.Margin = new System.Windows.Forms.Padding(20, 8, 0, 0);
+            this.darkModeCheckBox.TabIndex = 2;
             this.helpTip.SetToolTip(this.thresholdInput, "Adjust how dark a pixel must be to count as part of a coin. The sample uses 150.");
             this.helpTip.SetToolTip(this.openButton, "Coin sizes are calibrated for the sample image. Other photo scales need recalibration.");
             // Image panels
@@ -163,7 +171,7 @@
             this.originalGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.originalGroup.Controls.Add(this.originalPicture);
             this.resultGroup.Name = "resultGroup";
-            this.resultGroup.Text = "Result";
+            this.resultGroup.Text = "Coins";
             this.resultGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultGroup.Controls.Add(this.resultPicture);
             this.originalPicture.Name = "originalPicture";

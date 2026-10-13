@@ -22,6 +22,7 @@ namespace CoinDenominationDIP
             sampleButton.Click += LoadSample;
             processButton.Click += ProcessImage;
             maskCheckBox.CheckedChanged += delegate { UpdatePreview(); };
+            darkModeCheckBox.CheckedChanged += delegate { ApplyTheme(); };
             thresholdInput.ValueChanged += delegate
             {
                 ClearResults();
@@ -33,6 +34,7 @@ namespace CoinDenominationDIP
                 if (busy) { e.Cancel = true; statusLabel.Text = "Counting coins. Please wait before closing."; }
             };
             ClearResults();
+            ApplyTheme();
         }
 
         private void OpenImage(object sender, EventArgs e)
@@ -109,7 +111,7 @@ namespace CoinDenominationDIP
                     totalCentavos += count * value;
                 }
                 int unknown = analysis.Coins.Count(coin => coin.ValueCentavos == 0);
-                totalLabel.Text = "Total value: " + Peso(totalCentavos);
+                totalLabel.Text = "Total: " + Peso(totalCentavos);
                 unknownLabel.Visible = unknown > 0;
                 countLabel.Text = "Coins: " + analysis.Coins.Count + "    Unknown: " + unknown;
                 statusLabel.Text = analysis.Coins.Count == 0 ? "No coins detected. Check the image and threshold."
@@ -149,7 +151,7 @@ namespace CoinDenominationDIP
         {
             resultPicture.Image = analysis == null ? null
                 : maskCheckBox.Checked ? analysis.Mask : analysis.AnnotatedImage;
-            resultGroup.Text = maskCheckBox.Checked ? "Binary mask" : "Coins";
+            resultGroup.Text = maskCheckBox.Checked ? "Black-and-white" : "Coins";
         }
 
         private void ClearResults()
@@ -166,6 +168,45 @@ namespace CoinDenominationDIP
             countLabel.Text = "Coins: —";
             unknownLabel.Visible = false;
             resultsGrid.ClearSelection();
+        }
+
+        private void ApplyTheme()
+        {
+            bool dark = darkModeCheckBox.Checked;
+            Color background = dark ? Color.FromArgb(30, 30, 30) : Color.FromArgb(245, 245, 245);
+            Color surface = dark ? Color.FromArgb(42, 42, 42) : Color.White;
+            Color text = dark ? Color.FromArgb(235, 235, 235) : Color.FromArgb(30, 30, 30);
+            Color border = dark ? Color.FromArgb(85, 85, 85) : Color.FromArgb(190, 190, 190);
+            ApplyControlColors(this, background, surface, text, border);
+            resultsGrid.EnableHeadersVisualStyles = false;
+            resultsGrid.BackgroundColor = surface;
+            resultsGrid.GridColor = border;
+            resultsGrid.DefaultCellStyle.BackColor = surface;
+            resultsGrid.DefaultCellStyle.ForeColor = text;
+            resultsGrid.DefaultCellStyle.SelectionBackColor = dark ? Color.FromArgb(40, 80, 120) : Color.FromArgb(210, 230, 250);
+            resultsGrid.DefaultCellStyle.SelectionForeColor = text;
+            resultsGrid.ColumnHeadersDefaultCellStyle.BackColor = background;
+            resultsGrid.ColumnHeadersDefaultCellStyle.ForeColor = text;
+            resultsGrid.ColumnHeadersDefaultCellStyle.SelectionBackColor = background;
+            resultsGrid.ColumnHeadersDefaultCellStyle.SelectionForeColor = text;
+            helpTip.BackColor = surface;
+            helpTip.ForeColor = text;
+        }
+
+        private static void ApplyControlColors(Control control, Color background, Color surface, Color text, Color border)
+        {
+            control.BackColor = control is PictureBox || control is ComboBox
+                || control is NumericUpDown || control is Button ? surface : background;
+            control.ForeColor = text;
+            var button = control as Button;
+            if (button != null)
+            {
+                button.UseVisualStyleBackColor = false;
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderColor = border;
+            }
+            foreach (Control child in control.Controls)
+                ApplyControlColors(child, background, surface, text, border);
         }
 
         private void ReleaseImages()

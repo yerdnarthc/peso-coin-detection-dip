@@ -123,6 +123,7 @@ internal static class AnalyzerChecks
             form.ShowInTaskbar = false;
             form.Show();
             Application.DoEvents();
+            Check(!Field<CheckBox>(form, "darkModeCheckBox").Checked, "UI: light theme is the default");
             Check(!Field<Button>(form, "processButton").Enabled, "UI: cannot process without image");
             typeof(Form1).GetMethod("LoadSample", BindingFlags.Instance | BindingFlags.NonPublic)
                 .Invoke(form, new object[] { form, EventArgs.Empty });
@@ -146,7 +147,17 @@ internal static class AnalyzerChecks
             Check(ReferenceEquals(Field<PictureBox>(form, "resultPicture").Image,
                 Field<CoinAnalysis>(form, "analysis").Mask), "UI: binary mask toggle");
             Field<CheckBox>(form, "maskCheckBox").Checked = false;
-            SaveForm(form, outputPath, "ui.png");
+            SaveForm(form, outputPath, "ui-light.png");
+            Color lightBackground = form.BackColor;
+            Field<CheckBox>(form, "darkModeCheckBox").Checked = true;
+            Check(form.BackColor != lightBackground, "UI: dark mode changes background");
+            Check(Field<DataGridView>(form, "resultsGrid").DefaultCellStyle.ForeColor.GetBrightness() > 0.8, "UI: dark grid uses light text");
+            Check(Field<Label>(form, "totalLabel").Text.Contains("46.45"), "UI: theme preserves total");
+            SaveForm(form, outputPath, "ui-dark.png");
+            Field<CheckBox>(form, "darkModeCheckBox").Checked = false;
+            Check(form.BackColor == lightBackground, "UI: light mode restored");
+            form.Size = form.MinimumSize;
+            SaveForm(form, outputPath, "ui-small.png");
             Field<NumericUpDown>(form, "thresholdInput").Value = 151;
             Check(Field<CoinAnalysis>(form, "analysis") == null, "UI: changing threshold clears stale results");
             Check(Field<PictureBox>(form, "resultPicture").Image == null, "UI: changing threshold clears preview");
