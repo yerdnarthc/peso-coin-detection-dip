@@ -13,6 +13,7 @@ namespace CoinDenominationDIP
         private Bitmap original;
         private CoinAnalysis analysis;
         private bool busy;
+        private Bitmap filteredPreview;
         private readonly int[] denominations = { 5, 10, 25, 100, 500 };
 
         public Form1()
@@ -22,7 +23,12 @@ namespace CoinDenominationDIP
             sampleButton.Click += LoadSample;
             processButton.Click += ProcessImage;
             maskCheckBox.CheckedChanged += delegate { UpdatePreview(); };
+            coinFilter.SelectedIndexChanged += delegate { UpdatePreview(); };
             darkModeCheckBox.CheckedChanged += delegate { ApplyTheme(); };
+            resultsGrid.CellClick += delegate(object sender, DataGridViewCellEventArgs e)
+            {
+                if (e.RowIndex >= 0 && coinFilter.Enabled) coinFilter.SelectedIndex = e.RowIndex + 1;
+            };
             thresholdInput.ValueChanged += delegate
             {
                 ClearResults();
@@ -111,7 +117,7 @@ namespace CoinDenominationDIP
                     totalCentavos += count * value;
                 }
                 int unknown = analysis.Coins.Count(coin => coin.ValueCentavos == 0);
-                totalLabel.Text = "Total: " + Peso(totalCentavos);
+                totalLabel.Text = "Total (all coins): " + Peso(totalCentavos);
                 unknownLabel.Visible = unknown > 0;
                 countLabel.Text = "Coins: " + analysis.Coins.Count + "    Unknown: " + unknown;
                 statusLabel.Text = analysis.Coins.Count == 0 ? "No coins detected. Check the image and threshold."
@@ -142,6 +148,7 @@ namespace CoinDenominationDIP
             busy = value;
             openButton.Enabled = sampleButton.Enabled = thresholdInput.Enabled = !value;
             processButton.Enabled = !value && original != null;
+            coinFilter.Enabled = !value && analysis != null && !maskCheckBox.Checked;
             maskCheckBox.Enabled = !value && analysis != null;
             progressBar.Visible = value;
             UseWaitCursor = value;
@@ -149,16 +156,39 @@ namespace CoinDenominationDIP
 
         private void UpdatePreview()
         {
-            resultPicture.Image = analysis == null ? null
-                : maskCheckBox.Checked ? analysis.Mask : analysis.AnnotatedImage;
-            resultGroup.Text = maskCheckBox.Checked ? "Black-and-white" : "Coins";
+            resultPicture.Image = null;
+            if (filteredPreview != null) { filteredPreview.Dispose(); filteredPreview = null; }
+            coinFilter.Enabled = !busy && analysis != null && !maskCheckBox.Checked;
+            resultsGrid.ClearSelection();
+            if (analysis == null) { resultGroup.Text = "Coins"; return; }
+            if (maskCheckBox.Checked)
+            {
+                resultPicture.Image = analysis.Mask;
+                resultGroup.Text = "Black-and-white";
+                return;
+            }
+            int index = coinFilter.SelectedIndex;
+            if (index <= 0)
+            {
+                resultPicture.Image = analysis.AnnotatedImage;
+                resultGroup.Text = "All coins (" + analysis.Coins.Count + ")";
+                return;
+            }
+            int value = index <= denominations.Length ? denominations[index - 1] : 0;
+            var coins = analysis.Coins.Where(coin => coin.ValueCentavos == value).ToList();
+            filteredPreview = CoinAnalyzer.CreateOverlay(original, coins);
+            resultPicture.Image = filteredPreview;
+            resultGroup.Text = coinFilter.Text + " (" + coins.Count + ")";
+            if (value != 0) resultsGrid.Rows[index - 1].Selected = true;
         }
 
         private void ClearResults()
         {
             resultPicture.Image = null;
             if (analysis != null) { analysis.Dispose(); analysis = null; }
-            maskCheckBox.Enabled = false;
+            if (filteredPreview != null) { filteredPreview.Dispose(); filteredPreview = null; }
+            coinFilter.SelectedIndex = 0;
+            coinFilter.Enabled = maskCheckBox.Enabled = false;
             maskCheckBox.Checked = false;
             resultGroup.Text = "Coins";
             resultsGrid.Rows.Clear();
@@ -212,6 +242,7 @@ namespace CoinDenominationDIP
         private void ReleaseImages()
         {
             originalPicture.Image = resultPicture.Image = null;
+            if (filteredPreview != null) { filteredPreview.Dispose(); filteredPreview = null; }
             if (analysis != null) { analysis.Dispose(); analysis = null; }
             if (original != null) { original.Dispose(); original = null; }
         }

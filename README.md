@@ -11,8 +11,9 @@ Open `CoinDenominationDIP.slnx` in a compatible Visual Studio version, or open `
 3. Click **Count Coins**.
 4. Inspect the denomination labels and counts. Toggle **Black-and-white** to inspect segmentation.
 
+Use **Show coins** to highlight a denomination, or click its row in the results table. **All coins** restores every highlight. The counts and total always cover the whole image. The filter is unavailable in the black-and-white view and returns when that view is turned off.
 
-The application starts in light mode. Check **Dark mode** to switch themes; uncheck it to return to light mode. Theme changes preserve the image and results.
+The application starts in light mode. Check **Dark mode** to switch themes; uncheck it to return to light mode. Theme changes preserve the image, filter, and results.
 
 The result table shows counts and subtotals. Unknown candidates are marked with orange boxes and excluded from the monetary total. Changing the threshold clears previous results; click **Count Coins** again to recompute.
 
@@ -67,7 +68,7 @@ MSBuild .\CoinDenominationDIP\CoinDenominationDIP.csproj /p:Configuration=Releas
 .\tests\Run-Checks.ps1
 ```
 
-The dependency-free harness checks reference counts and value, repeated processing, half-size and double-size reference images, synthetic holed and solid coins, noise and malformed regions, blank input, invalid thresholds, source preservation, and WinForms flows and light/dark switching. It creates a temporary off-screen test form and writes diagnostic images (`analyzed.png`, `mask.png`, `ui-light.png`, `ui-dark.png`, `ui-small.png`) under the ignored Debug output directory. Both Debug and Release builds and this harness passed during implementation.
+The dependency-free harness checks reference counts and value, repeated processing, half-size and double-size reference images, synthetic holed and solid coins, noise and malformed regions, blank input, invalid thresholds, source preservation, and WinForms flows, all denomination filters, table-row filtering, and light/dark switching. It creates a temporary off-screen test form and writes diagnostic images (`analyzed.png`, `mask.png`, `ui-light.png`, `ui-dark.png`, `ui-small.png`) under the ignored Debug output directory. Both Debug and Release builds and this harness passed during implementation.
 
 ## Third-Party / Provided Code
 

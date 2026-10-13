@@ -1,4 +1,4 @@
-﻿# Run from any directory after building the application in Debug configuration.
+# Run from any directory after building the application in Debug configuration.
 $ErrorActionPreference = 'Stop'
 $repository = Split-Path $PSScriptRoot -Parent
 $output = Join-Path $repository 'CoinDenominationDIP\bin\Debug'
