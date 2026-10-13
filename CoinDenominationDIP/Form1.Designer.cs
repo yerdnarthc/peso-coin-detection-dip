@@ -2,39 +2,295 @@
 {
     partial class Form1
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.TableLayoutPanel layout;
+        private System.Windows.Forms.FlowLayoutPanel toolbar;
+        private System.Windows.Forms.Button openButton;
+        private System.Windows.Forms.Button sampleButton;
+        private System.Windows.Forms.Button processButton;
+        private System.Windows.Forms.Label thresholdLabel;
+        private System.Windows.Forms.NumericUpDown thresholdInput;
+        private System.Windows.Forms.CheckBox maskCheckBox;
+        private System.Windows.Forms.FlowLayoutPanel viewbar;
+        private System.Windows.Forms.Label filterLabel;
+        private System.Windows.Forms.ComboBox coinFilter;
+        private System.Windows.Forms.CheckBox darkModeCheckBox;
+        private System.Windows.Forms.ToolTip helpTip;
+        private System.Windows.Forms.TableLayoutPanel images;
+        private System.Windows.Forms.GroupBox originalGroup;
+        private System.Windows.Forms.GroupBox resultGroup;
+        private System.Windows.Forms.PictureBox originalPicture;
+        private System.Windows.Forms.PictureBox resultPicture;
+        private System.Windows.Forms.TableLayoutPanel summary;
+        private System.Windows.Forms.DataGridView resultsGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn denominationColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn countColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subtotalColumn;
+        private System.Windows.Forms.FlowLayoutPanel totals;
+        private System.Windows.Forms.Label totalLabel;
+        private System.Windows.Forms.Label countLabel;
+        private System.Windows.Forms.Label unknownLabel;
+        private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.ProgressBar progressBar;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                ReleaseImages();
+                if (components != null) components.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
-        }
+            this.layout = new System.Windows.Forms.TableLayoutPanel();
+            this.toolbar = new System.Windows.Forms.FlowLayoutPanel();
+            this.openButton = new System.Windows.Forms.Button();
+            this.sampleButton = new System.Windows.Forms.Button();
+            this.processButton = new System.Windows.Forms.Button();
+            this.thresholdLabel = new System.Windows.Forms.Label();
+            this.thresholdInput = new System.Windows.Forms.NumericUpDown();
+            this.maskCheckBox = new System.Windows.Forms.CheckBox();
+            this.viewbar = new System.Windows.Forms.FlowLayoutPanel();
+            this.filterLabel = new System.Windows.Forms.Label();
+            this.coinFilter = new System.Windows.Forms.ComboBox();
+            this.darkModeCheckBox = new System.Windows.Forms.CheckBox();
+            this.helpTip = new System.Windows.Forms.ToolTip(this.components);
+            this.images = new System.Windows.Forms.TableLayoutPanel();
+            this.originalGroup = new System.Windows.Forms.GroupBox();
+            this.resultGroup = new System.Windows.Forms.GroupBox();
+            this.originalPicture = new System.Windows.Forms.PictureBox();
+            this.resultPicture = new System.Windows.Forms.PictureBox();
+            this.summary = new System.Windows.Forms.TableLayoutPanel();
+            this.resultsGrid = new System.Windows.Forms.DataGridView();
+            this.denominationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.countColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.subtotalColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.totals = new System.Windows.Forms.FlowLayoutPanel();
+            this.totalLabel = new System.Windows.Forms.Label();
+            this.countLabel = new System.Windows.Forms.Label();
+            this.unknownLabel = new System.Windows.Forms.Label();
+            this.statusLabel = new System.Windows.Forms.Label();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.originalPicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultPicture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultsGrid)).BeginInit();
+            this.layout.SuspendLayout();
+            this.toolbar.SuspendLayout();
+            this.viewbar.SuspendLayout();
+            this.images.SuspendLayout();
+            this.originalGroup.SuspendLayout();
+            this.resultGroup.SuspendLayout();
+            this.summary.SuspendLayout();
+            this.totals.SuspendLayout();
+            this.SuspendLayout();
+            // Main layout
+            this.layout.Name = "layout";
+            this.layout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layout.Padding = new System.Windows.Forms.Padding(12);
+            this.layout.ColumnCount = 1;
+            this.layout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.layout.RowCount = 5;
+            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 190F));
+            this.layout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.layout.Controls.Add(this.toolbar, 0, 0);
+            this.layout.Controls.Add(this.viewbar, 0, 1);
+            this.layout.Controls.Add(this.images, 0, 2);
+            this.layout.Controls.Add(this.summary, 0, 3);
+            this.layout.Controls.Add(this.statusLabel, 0, 4);
+            // Commands
+            this.toolbar.Name = "toolbar";
+            this.toolbar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolbar.WrapContents = false;
+            this.toolbar.Controls.Add(this.sampleButton);
+            this.toolbar.Controls.Add(this.openButton);
+            this.toolbar.Controls.Add(this.thresholdLabel);
+            this.toolbar.Controls.Add(this.thresholdInput);
+            this.toolbar.Controls.Add(this.processButton);
 
-        #endregion
+            this.sampleButton.Name = "sampleButton";
+            this.sampleButton.Text = "Load &Sample";
+            this.sampleButton.AutoSize = true;
+            this.sampleButton.Size = new System.Drawing.Size(110, 36);
+            this.sampleButton.TabIndex = 0;
+            this.openButton.Name = "openButton";
+            this.openButton.Text = "&Open Image…";
+            this.openButton.AutoSize = true;
+            this.openButton.Size = new System.Drawing.Size(110, 36);
+            this.openButton.TabIndex = 1;
+            this.thresholdLabel.Name = "thresholdLabel";
+            this.thresholdLabel.Text = "Threshold:";
+            this.thresholdLabel.AutoSize = true;
+            this.thresholdLabel.Margin = new System.Windows.Forms.Padding(16, 9, 3, 0);
+            this.thresholdInput.Name = "thresholdInput";
+            this.thresholdInput.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            this.thresholdInput.Value = new decimal(new int[] { 150, 0, 0, 0 });
+            this.thresholdInput.Size = new System.Drawing.Size(65, 25);
+            this.thresholdInput.Margin = new System.Windows.Forms.Padding(3, 5, 8, 0);
+            this.thresholdInput.AccessibleName = "Threshold";
+            this.thresholdInput.TabIndex = 2;
+            this.processButton.Name = "processButton";
+            this.processButton.Text = "&Count Coins";
+            this.processButton.AutoSize = true;
+            this.processButton.Size = new System.Drawing.Size(110, 36);
+            this.processButton.Enabled = false;
+            this.processButton.TabIndex = 3;
+            this.maskCheckBox.Name = "maskCheckBox";
+            this.maskCheckBox.Text = "&Black-and-white";
+            this.maskCheckBox.AutoSize = true;
+            this.maskCheckBox.Margin = new System.Windows.Forms.Padding(14, 8, 0, 0);
+            this.maskCheckBox.TabIndex = 1;
+            this.maskCheckBox.Enabled = false;
+            this.viewbar.Name = "viewbar";
+            this.viewbar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.viewbar.WrapContents = false;
+            this.viewbar.Controls.Add(this.filterLabel);
+            this.viewbar.Controls.Add(this.coinFilter);
+            this.viewbar.Controls.Add(this.maskCheckBox);
+            this.viewbar.Controls.Add(this.darkModeCheckBox);
+            this.filterLabel.Name = "filterLabel";
+            this.filterLabel.Text = "Show coins:";
+            this.filterLabel.AutoSize = true;
+            this.filterLabel.Margin = new System.Windows.Forms.Padding(3, 8, 6, 0);
+            this.coinFilter.Name = "coinFilter";
+            this.coinFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.coinFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.coinFilter.Size = new System.Drawing.Size(155, 25);
+            this.coinFilter.Margin = new System.Windows.Forms.Padding(3, 4, 8, 0);
+            this.coinFilter.AccessibleName = "Show coins";
+            this.coinFilter.Items.AddRange(new object[] { "All coins", "5 centavos", "10 centavos", "25 centavos", "₱1", "₱5", "Unknown" });
+            this.coinFilter.SelectedIndex = 0;
+            this.coinFilter.Enabled = false;
+            this.coinFilter.TabIndex = 0;
+            this.darkModeCheckBox.Name = "darkModeCheckBox";
+            this.darkModeCheckBox.Text = "&Dark mode";
+            this.darkModeCheckBox.AutoSize = true;
+            this.darkModeCheckBox.Margin = new System.Windows.Forms.Padding(20, 8, 0, 0);
+            this.darkModeCheckBox.TabIndex = 2;
+            this.helpTip.SetToolTip(this.thresholdInput, "Adjust how dark a pixel must be to count as part of a coin. The sample uses 150.");
+            this.helpTip.SetToolTip(this.openButton, "Coin sizes are calibrated for the sample image. Other photo scales need recalibration.");
+            this.helpTip.SetToolTip(this.coinFilter, "Highlight one coin type, or choose All coins to see every label.");
+            // Image panels
+            this.images.Name = "images";
+            this.images.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.images.ColumnCount = 2;
+            this.images.RowCount = 1;
+            this.images.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.images.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.images.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.images.Controls.Add(this.originalGroup, 0, 0);
+            this.images.Controls.Add(this.resultGroup, 1, 0);
+            this.originalGroup.Name = "originalGroup";
+            this.originalGroup.Text = "Original";
+            this.originalGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.originalGroup.Controls.Add(this.originalPicture);
+            this.resultGroup.Name = "resultGroup";
+            this.resultGroup.Text = "Coins";
+            this.resultGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultGroup.Controls.Add(this.resultPicture);
+            this.originalPicture.Name = "originalPicture";
+            this.originalPicture.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.originalPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.originalPicture.BackColor = System.Drawing.Color.White;
+            this.originalPicture.AccessibleName = "Original image";
+            this.originalPicture.TabStop = false;
+            this.resultPicture.Name = "resultPicture";
+            this.resultPicture.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.resultPicture.BackColor = System.Drawing.Color.White;
+            this.resultPicture.AccessibleName = "Analysis image";
+            this.resultPicture.TabStop = false;
+            // Counts and totals
+            this.summary.Name = "summary";
+            this.summary.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.summary.ColumnCount = 2;
+            this.summary.RowCount = 1;
+            this.summary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55F));
+            this.summary.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45F));
+            this.summary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.summary.Controls.Add(this.resultsGrid, 0, 0);
+            this.summary.Controls.Add(this.totals, 1, 0);
+            this.resultsGrid.Name = "resultsGrid";
+            this.resultsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultsGrid.ReadOnly = true;
+            this.resultsGrid.AllowUserToAddRows = false;
+            this.resultsGrid.AllowUserToDeleteRows = false;
+            this.resultsGrid.AllowUserToResizeRows = false;
+            this.resultsGrid.RowHeadersVisible = false;
+            this.resultsGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.resultsGrid.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.resultsGrid.AccessibleName = "Denomination counts and subtotals";
+            this.resultsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.denominationColumn, this.countColumn, this.subtotalColumn });
+            this.denominationColumn.Name = "Denomination";
+            this.denominationColumn.HeaderText = "Denomination";
+            this.denominationColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.countColumn.Name = "Count";
+            this.countColumn.HeaderText = "Count";
+            this.countColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.subtotalColumn.Name = "Subtotal";
+            this.subtotalColumn.HeaderText = "Subtotal";
+            this.subtotalColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.totals.Name = "totals";
+            this.totals.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.totals.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.totals.Padding = new System.Windows.Forms.Padding(12);
+            this.totals.WrapContents = false;
+            this.totals.Controls.Add(this.totalLabel);
+            this.totals.Controls.Add(this.countLabel);
+            this.totals.Controls.Add(this.unknownLabel);
+            this.totals.Controls.Add(this.progressBar);
+            this.totalLabel.Name = "totalLabel";
+            this.totalLabel.AutoSize = true;
+            this.totalLabel.MaximumSize = new System.Drawing.Size(350, 0);
+            this.countLabel.Name = "countLabel";
+            this.countLabel.AutoSize = true;
+            this.unknownLabel.Name = "unknownLabel";
+            this.unknownLabel.Text = "Unknown coins are excluded from the total.";
+            this.unknownLabel.AutoSize = true;
+            this.unknownLabel.MaximumSize = new System.Drawing.Size(340, 0);
+            this.unknownLabel.Margin = new System.Windows.Forms.Padding(0, 12, 0, 8);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar.Size = new System.Drawing.Size(220, 18);
+            this.progressBar.Visible = false;
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Text = "Open an image or load the sample.";
+            this.statusLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statusLabel.AutoEllipsis = true;
+            this.statusLabel.AccessibleName = "Processing status";
+            // Form
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.ClientSize = new System.Drawing.Size(1100, 760);
+            this.MinimumSize = new System.Drawing.Size(920, 680);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Philippine Coin Counter";
+            this.Name = "Form1";
+            this.Controls.Add(this.layout);
+            ((System.ComponentModel.ISupportInitialize)(this.thresholdInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.originalPicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultPicture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultsGrid)).EndInit();
+            this.viewbar.ResumeLayout(false);
+            this.viewbar.PerformLayout();
+            this.toolbar.ResumeLayout(false);
+            this.toolbar.PerformLayout();
+            this.originalGroup.ResumeLayout(false);
+            this.resultGroup.ResumeLayout(false);
+            this.images.ResumeLayout(false);
+            this.totals.ResumeLayout(false);
+            this.totals.PerformLayout();
+            this.summary.ResumeLayout(false);
+            this.layout.ResumeLayout(false);
+            this.ResumeLayout(false);
+        }
     }
 }
-
