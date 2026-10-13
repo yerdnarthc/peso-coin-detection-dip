@@ -9,9 +9,10 @@ Open `CoinDenominationDIP.slnx` in a compatible Visual Studio version, or open `
 1. Click **Load Sample**, or **Open Image** for a JPEG, PNG, or BMP.
 2. Leave **Threshold** at **150** for the supplied image.
 3. Click **Count Coins**.
-4. Inspect the denomination labels and counts. Toggle **Show binary mask** to inspect segmentation.
+4. Inspect the denomination labels and counts. Toggle **Black-and-white** to inspect segmentation.
 
 
+The application starts in light mode. Check **Dark mode** to switch themes; uncheck it to return to light mode. Theme changes preserve the image and results.
 
 The result table shows counts and subtotals. Unknown candidates are marked with orange boxes and excluded from the monetary total. Changing the threshold clears previous results; click **Count Coins** again to recompute.
 
@@ -66,7 +67,7 @@ MSBuild .\CoinDenominationDIP\CoinDenominationDIP.csproj /p:Configuration=Releas
 .\tests\Run-Checks.ps1
 ```
 
-The dependency-free harness checks reference counts and value, repeated processing, half-size and double-size reference images, synthetic holed and solid coins, noise and malformed regions, blank input, invalid thresholds, source preservation, and basic WinForms flows. It creates a temporary off-screen test form and writes diagnostic images (`analyzed.png`, `mask.png`, `ui.png`) under the ignored Debug output directory. Both Debug and Release builds and this harness passed during implementation.
+The dependency-free harness checks reference counts and value, repeated processing, half-size and double-size reference images, synthetic holed and solid coins, noise and malformed regions, blank input, invalid thresholds, source preservation, and WinForms flows and light/dark switching. It creates a temporary off-screen test form and writes diagnostic images (`analyzed.png`, `mask.png`, `ui-light.png`, `ui-dark.png`, `ui-small.png`) under the ignored Debug output directory. Both Debug and Release builds and this harness passed during implementation.
 
 ## Third-Party / Provided Code
 

@@ -9,3 +9,8 @@ Implement the agreed threshold -> connected components -> size and hole features
 
 Scope: separated coins on a light background at the reference image scale (or a proportional resize of the whole reference). This is not a general classifier for differently framed photographs. Inventory totals are validation data, never algorithm inputs. No external packages or template matching.
 
+## Interface additions
+
+- Start in light mode; use a Dark mode checkbox to switch the form and controls without modifying image pixels.
+- Shorten visible labels and messages. Keep detailed calibration guidance in README and tooltips.
+- Verify theme switching, preserved results, and default/minimum-size layouts.
