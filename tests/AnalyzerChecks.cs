@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -124,6 +124,7 @@ internal static class AnalyzerChecks
             form.Show();
             Application.DoEvents();
             Check(!Field<CheckBox>(form, "darkModeCheckBox").Checked, "UI: light theme is the default");
+            Check(!Field<ComboBox>(form, "coinFilter").Enabled, "UI: filter disabled before counting");
             Check(!Field<Button>(form, "processButton").Enabled, "UI: cannot process without image");
             typeof(Form1).GetMethod("LoadSample", BindingFlags.Instance | BindingFlags.NonPublic)
                 .Invoke(form, new object[] { form, EventArgs.Empty });
@@ -143,22 +144,53 @@ internal static class AnalyzerChecks
                 Check(Field<Label>(form, "totalLabel").Text.Contains("46.45"), "UI: total displayed");
                 Check(Field<DataGridView>(form, "resultsGrid").Rows.Count == 5, "UI: five result rows");
             }
-            Field<CheckBox>(form, "maskCheckBox").Checked = true;
-            Check(ReferenceEquals(Field<PictureBox>(form, "resultPicture").Image,
-                Field<CoinAnalysis>(form, "analysis").Mask), "UI: binary mask toggle");
-            Field<CheckBox>(form, "maskCheckBox").Checked = false;
+            var filter = Field<ComboBox>(form, "coinFilter");
+            var result = Field<CoinAnalysis>(form, "analysis");
+            for (int index = 1; index <= 6; index++)
+            {
+                filter.SelectedIndex = index;
+                int value = index <= 5 ? new[] { 5, 10, 25, 100, 500 }[index - 1] : 0;
+                var preview = (Bitmap)Field<PictureBox>(form, "resultPicture").Image;
+                bool selectedMarked = true, othersUnmarked = true;
+                foreach (var coin in result.Coins)
+                {
+                    int x = coin.Bounds.Right - 1, y = coin.Bounds.Top + coin.Bounds.Height / 2;
+                    if (coin.ValueCentavos == value)
+                        selectedMarked &= preview.GetPixel(x, y).ToArgb() == Color.LimeGreen.ToArgb();
+                    else
+                        othersUnmarked &= preview.GetPixel(x, y).ToArgb() == Field<Bitmap>(form, "original").GetPixel(x, y).ToArgb();
+                }
+                Check(selectedMarked && othersUnmarked, "UI filter " + value + ": only matching coins highlighted");
+                Check(Field<Label>(form, "totalLabel").Text.Contains("46.45"), "UI filter: overall total preserved");
+                Check(ReferenceEquals(result, Field<CoinAnalysis>(form, "analysis")), "UI filter: analysis reused");
+            }
+            filter.SelectedIndex = 0;
+            Check(ReferenceEquals(Field<PictureBox>(form, "resultPicture").Image, result.AnnotatedImage), "UI: All coins restores full overlay");
+            filter.SelectedIndex = 1;
             SaveForm(form, outputPath, "ui-light.png");
             Color lightBackground = form.BackColor;
             Field<CheckBox>(form, "darkModeCheckBox").Checked = true;
             Check(form.BackColor != lightBackground, "UI: dark mode changes background");
             Check(Field<DataGridView>(form, "resultsGrid").DefaultCellStyle.ForeColor.GetBrightness() > 0.8, "UI: dark grid uses light text");
-            Check(Field<Label>(form, "totalLabel").Text.Contains("46.45"), "UI: theme preserves total");
+            Check(filter.SelectedIndex == 1, "UI: theme preserves coin filter");
+            filter.SelectedIndex = 3;
             SaveForm(form, outputPath, "ui-dark.png");
+            Field<CheckBox>(form, "maskCheckBox").Checked = true;
+            Check(!filter.Enabled, "UI: filter disabled in black-and-white view");
+            Check(ReferenceEquals(Field<PictureBox>(form, "resultPicture").Image, result.Mask), "UI: binary mask toggle");
+            Field<CheckBox>(form, "maskCheckBox").Checked = false;
+            Check(filter.Enabled && filter.SelectedIndex == 3, "UI: filter restored after black-and-white view");
+            Field<DataGridView>(form, "resultsGrid").ClearSelection();
+            typeof(DataGridView).GetMethod("OnCellClick", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(Field<DataGridView>(form, "resultsGrid"), new object[] { new DataGridViewCellEventArgs(0, 4) });
+            Check(filter.SelectedIndex == 5, "UI: clicking a count row filters the image");
             Field<CheckBox>(form, "darkModeCheckBox").Checked = false;
             Check(form.BackColor == lightBackground, "UI: light mode restored");
             form.Size = form.MinimumSize;
             SaveForm(form, outputPath, "ui-small.png");
             Field<NumericUpDown>(form, "thresholdInput").Value = 151;
+            Check(!filter.Enabled && filter.SelectedIndex == 0, "UI: clearing results resets the filter");
+            Check(Field<Bitmap>(form, "filteredPreview") == null, "UI: clearing results releases filtered preview");
             Check(Field<CoinAnalysis>(form, "analysis") == null, "UI: changing threshold clears stale results");
             Check(Field<PictureBox>(form, "resultPicture").Image == null, "UI: changing threshold clears preview");
         }

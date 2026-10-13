@@ -12,5 +12,7 @@ Scope: separated coins on a light background at the reference image scale (or a 
 ## Interface additions
 
 - Start in light mode; use a Dark mode checkbox to switch the form and controls without modifying image pixels.
+- Add a Show coins dropdown with All coins, five denominations, and Unknown. Render only matching overlays from existing analysis; keep full-image totals. Clicking a denomination row selects its filter.
+- Disable the filter while processing or viewing the binary mask. Restore the selected filter when returning to the labeled view. Dispose replaced filtered previews.
 - Shorten visible labels and messages. Keep detailed calibration guidance in README and tooltips.
-- Verify theme switching, preserved results, and default/minimum-size layouts.
+- Verify every filter against rendered coin boundaries, theme switching, preserved results, reset/disposal, mask interactions, and default/minimum-size layouts.

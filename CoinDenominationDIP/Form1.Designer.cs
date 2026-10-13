@@ -12,6 +12,8 @@
         private System.Windows.Forms.NumericUpDown thresholdInput;
         private System.Windows.Forms.CheckBox maskCheckBox;
         private System.Windows.Forms.FlowLayoutPanel viewbar;
+        private System.Windows.Forms.Label filterLabel;
+        private System.Windows.Forms.ComboBox coinFilter;
         private System.Windows.Forms.CheckBox darkModeCheckBox;
         private System.Windows.Forms.ToolTip helpTip;
         private System.Windows.Forms.TableLayoutPanel images;
@@ -53,6 +55,8 @@
             this.thresholdInput = new System.Windows.Forms.NumericUpDown();
             this.maskCheckBox = new System.Windows.Forms.CheckBox();
             this.viewbar = new System.Windows.Forms.FlowLayoutPanel();
+            this.filterLabel = new System.Windows.Forms.Label();
+            this.coinFilter = new System.Windows.Forms.ComboBox();
             this.darkModeCheckBox = new System.Windows.Forms.CheckBox();
             this.helpTip = new System.Windows.Forms.ToolTip(this.components);
             this.images = new System.Windows.Forms.TableLayoutPanel();
@@ -147,8 +151,24 @@
             this.viewbar.Name = "viewbar";
             this.viewbar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.viewbar.WrapContents = false;
+            this.viewbar.Controls.Add(this.filterLabel);
+            this.viewbar.Controls.Add(this.coinFilter);
             this.viewbar.Controls.Add(this.maskCheckBox);
             this.viewbar.Controls.Add(this.darkModeCheckBox);
+            this.filterLabel.Name = "filterLabel";
+            this.filterLabel.Text = "Show coins:";
+            this.filterLabel.AutoSize = true;
+            this.filterLabel.Margin = new System.Windows.Forms.Padding(3, 8, 6, 0);
+            this.coinFilter.Name = "coinFilter";
+            this.coinFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.coinFilter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.coinFilter.Size = new System.Drawing.Size(155, 25);
+            this.coinFilter.Margin = new System.Windows.Forms.Padding(3, 4, 8, 0);
+            this.coinFilter.AccessibleName = "Show coins";
+            this.coinFilter.Items.AddRange(new object[] { "All coins", "5 centavos", "10 centavos", "25 centavos", "₱1", "₱5", "Unknown" });
+            this.coinFilter.SelectedIndex = 0;
+            this.coinFilter.Enabled = false;
+            this.coinFilter.TabIndex = 0;
             this.darkModeCheckBox.Name = "darkModeCheckBox";
             this.darkModeCheckBox.Text = "&Dark mode";
             this.darkModeCheckBox.AutoSize = true;
@@ -156,6 +176,7 @@
             this.darkModeCheckBox.TabIndex = 2;
             this.helpTip.SetToolTip(this.thresholdInput, "Adjust how dark a pixel must be to count as part of a coin. The sample uses 150.");
             this.helpTip.SetToolTip(this.openButton, "Coin sizes are calibrated for the sample image. Other photo scales need recalibration.");
+            this.helpTip.SetToolTip(this.coinFilter, "Highlight one coin type, or choose All coins to see every label.");
             // Image panels
             this.images.Name = "images";
             this.images.Dock = System.Windows.Forms.DockStyle.Fill;

@@ -106,12 +106,29 @@ namespace CoinDenominationDIP
                 }
 
                 result.Coins.Sort((a, b) => a.Bounds.Top.CompareTo(b.Bounds.Top));
-                result.AnnotatedImage = new Bitmap(source);
-                using (Graphics graphics = Graphics.FromImage(result.AnnotatedImage))
+                result.AnnotatedImage = CreateOverlay(source, result.Coins);
+                return result;
+            }
+            catch
+            {
+                result.Dispose();
+                throw;
+            }
+        }
+
+        public static Bitmap CreateOverlay(Bitmap source, IEnumerable<DetectedCoin> coins)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            if (coins == null) throw new ArgumentNullException("coins");
+            var overlay = new Bitmap(source);
+            double scale = source.Width / ReferenceWidth;
+            try
+            {
+                using (Graphics graphics = Graphics.FromImage(overlay))
                 using (var font = new Font(FontFamily.GenericSansSerif, Math.Max(8, (float)(11 * scale)), FontStyle.Bold))
                 using (var pen = new Pen(Color.LimeGreen, Math.Max(1, (float)(2 * scale))))
                 {
-                    foreach (DetectedCoin coin in result.Coins)
+                    foreach (DetectedCoin coin in coins)
                     {
                         pen.Color = coin.ValueCentavos == 0 ? Color.OrangeRed : Color.LimeGreen;
                         graphics.DrawRectangle(pen, coin.Bounds);
@@ -124,13 +141,9 @@ namespace CoinDenominationDIP
                         graphics.DrawString(caption, font, Brushes.White, coin.Bounds.Left, y);
                     }
                 }
-                return result;
+                return overlay;
             }
-            catch
-            {
-                result.Dispose();
-                throw;
-            }
+            catch { overlay.Dispose(); throw; }
         }
 
         private static int Classify(double diameter, bool hole)
